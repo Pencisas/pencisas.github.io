@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" data-world="tech">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pao Encisa · Roblox developer, 3D modeler, AI video editor</title>
+<meta name="description" content="Portfolio of Pao Encisa: Roblox games with 270K+ plays, stylized game-ready 3D models, and AI videos of every kind, edited in CapCut.">
+<meta property="og:title" content="Pao Encisa · Games, 3D and AI video">
+<meta property="og:description" content="Roblox developer, 3D modeler and AI video editor from the Philippines.">
+<meta property="og:image" content="assets/og.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1834E8">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/BricolageGrotesque.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Unbounded.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  // Pick the world from the URL before first paint so there's no theme flash.
+  (function () {
+    var h = (location.hash || '').replace('#', '');
+    var map = { tech: 'tech', games: 'tech', '3d': '3d', modeling: '3d', video: 'video', 'ai-video': 'video' };
+    if (map[h]) document.documentElement.setAttribute('data-world', map[h]);
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#world">Skip to work</a>
+
+<canvas id="bg3d" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div id="wipe" aria-hidden="true"></div>
+
+<header class="bar" id="bar">
+  <a class="mark" href="#top" aria-label="Pao Encisa, back to top">
+    <span class="mark-cube" aria-hidden="true"></span><span>Pao Encisa</span>
+  </a>
+  <nav class="mini-switch" aria-label="Choose a specialty">
+    <button data-go="tech">Tech</button>
+    <button data-go="3d">3D</button>
+    <button data-go="video">AI video</button>
+    <span class="mini-pill" aria-hidden="true"></span>
+  </nav>
+  <a class="bar-cta" href="#contact">Hire me</a>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <p class="hero-hello">Hi, I'm</p>
+      <h1 class="hero-name" aria-label="Pao Encisa">
+        <span class="line"><span class="word">Pao</span></span>
+        <span class="line"><span class="word">Encisa</span></span>
+      </h1>
+      <p class="hero-sub">I build Roblox games, model game-ready 3D assets, and make AI videos. Pick a side of my work.</p>
+
+      <div class="switch" role="tablist" aria-label="Specialties">
+        <button class="sw" role="tab" data-go="tech" aria-controls="world">
+          <span class="sw-media"><img src="assets/games/10771468832-icon.webp" alt="" width="96" height="96"></span>
+          <span class="sw-text"><span class="sw-title">Tech &amp; games</span><span class="sw-note">Roblox games and automations</span></span>
+        </button>
+        <button class="sw" role="tab" data-go="3d" aria-controls="world">
+          <span class="sw-media"><img src="assets/3d/3d-cubed-characters-styl-01-sm.webp" alt="" width="96" height="96"></span>
+          <span class="sw-text"><span class="sw-title">3D modeling</span><span class="sw-note">Stylized, game-ready assets</span></span>
+        </button>
+        <button class="sw" role="tab" data-go="video" aria-controls="world">
+          <span class="sw-media"><img src="assets/video/perfume-ugc.webp" alt="" width="96" height="96"></span>
+          <span class="sw-text"><span class="sw-title">AI video</span><span class="sw-note">Every format, edited in CapCut</span></span>
+        </button>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"><span></span></div>
+  </section>
+
+  <div id="world" tabindex="-1" aria-live="polite"></div>
+
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <h2 class="contact-title">Let's make the next one together.</h2>
+      <p class="contact-sub" id="avail"></p>
+      <a class="contact-mail" id="mail" href="#"></a>
+      <ul class="contact-links">
+        <li><a href="https://www.roblox.com/games/116442407292822/Anime-Ink-Battle" target="_blank" rel="noopener">Play Anime Ink Battle</a></li>
+        <li><a href="https://sites.google.com/view/paoportfoliodoflamonggi/home" target="_blank" rel="noopener">Full 3D archive</a></li>
+        <li><a href="https://drive.google.com/drive/folders/1qzYywu2roN1QbL8ccHPELVefU1SxxCmh?usp=drive_link" target="_blank" rel="noopener">All video samples</a></li>
+      </ul>
+      <p class="foot">© <span id="yr"></span> Pao Encisa · Marikina, Philippines</p>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+  <button class="lb-close" aria-label="Close viewer">Close</button>
+  <button class="lb-nav lb-prev" aria-label="Previous image">‹</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button class="lb-nav lb-next" aria-label="Next image">›</button>
+</div>
+
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="vendor/lenis.min.js" defer></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
