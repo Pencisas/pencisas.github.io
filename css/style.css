@@ -12,22 +12,23 @@
   --r-lg: 22px;
 }
 
-/* --- Tech: cobalt studio, signal yellow, chunky rounded display --- */
+/* --- Tech: sumi ink on black paper, bone-white strokes, one vermilion seal --- */
 html[data-world='tech'] {
-  --bg: #1834e8;
-  --bg2: #1128c4;
-  --bg3: #0c1d93;
-  --ink: #f7f5ef;
-  --soft: rgba(247, 245, 239, .72);
-  --line: rgba(247, 245, 239, .22);
-  --accent: #ffd23f;
-  --accent-ink: #13185a;
+  --bg: #0e0d0c;
+  --bg2: #151311;
+  --bg3: #1e1b18;
+  --ink: #ece6d8;
+  --soft: rgba(236, 230, 216, .64);
+  --line: rgba(236, 230, 216, .16);
+  --accent: #ece6d8;
+  --accent-ink: #0e0d0c;
+  --seal: #d4382b;
   --display: 'Unbounded', var(--body);
   --d-weight: 800;
   --d-track: -.035em;
   --d-lh: .92;
-  --shadow: 0 30px 80px -30px rgba(5, 10, 70, .7);
-  --r-card: 26px;
+  --shadow: 0 50px 100px -40px rgba(0, 0, 0, .95);
+  --r-card: 3px;
 }
 
 /* --- 3D: shadow-army violet, ice highlights, tall condensed titles --- */
@@ -356,3 +357,77 @@ html[data-world='video'] .contact-title { font-style: italic; }
   .cube-img { clip-path: none !important; }
   .cube-img img { transform: none !important; }
 }
+
+
+/* ============================================================
+   Ink world (tech): brush strokes, rough ink edges, washi grain
+   ============================================================ */
+.ink-wash { position: fixed; inset: -10%; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 1s; }
+html[data-world='tech'] .ink-wash { opacity: 1; }
+.ink-wash svg { width: 100%; height: 100%; animation: wash 40s ease-in-out infinite alternate; }
+@keyframes wash { from { transform: translate(0, 0) scale(1); } to { transform: translate(-3%, 2%) scale(1.06); } }
+html[data-world='tech'] .grain { opacity: .09; }
+
+/* rough, printed-ink edges on display type */
+html[data-world='tech'] .d,
+html[data-world='tech'] .hero-name,
+html[data-world='tech'] .contact-title,
+html[data-world='tech'] .stat b { filter: url(#ink-rough); }
+html[data-world='tech'] .hero-name { letter-spacing: -.045em; }
+
+/* brush-stroke fills for selected / primary controls */
+html[data-world='tech'] .btn,
+html[data-world='tech'] .sw[aria-selected='true'],
+html[data-world='tech'] .mini-pill,
+html[data-world='tech'] .shelf-count {
+  border-radius: 0; border-color: transparent;
+  -webkit-mask: var(--brush) center / 100% 100% no-repeat; mask: var(--brush) center / 100% 100% no-repeat;
+}
+html[data-world='tech'] .btn { padding: 16px 30px; }
+html[data-world='tech'] .sw { border-radius: 4px; background: color-mix(in srgb, var(--bg) 70%, transparent); }
+html[data-world='tech'] .sw[aria-selected='true'] { padding-left: 18px; }
+html[data-world='tech'] .sw-media { border-radius: 3px; }
+:root { --brush: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 60' preserveAspectRatio='none'%3E%3Cpath d='M9 13C46 5 95 9 152 6c58-3 106 1 141 5l4 9-6 7 7 9-5 9c-49 6-108 3-170 6-38 2-77-1-113-4l-6-9 5-8-7-9 4-8z'/%3E%3C/svg%3E"); }
+html[data-world='tech'] .mark-cube { border-radius: 50%; transform: scale(.78); background: var(--seal); box-shadow: inset 0 0 0 2px rgba(0,0,0,.25); }
+
+/* hand-inked frames around media */
+html[data-world='tech'] .inkframe { position: relative; }
+html[data-world='tech'] .inkframe::after { content: ''; position: absolute; inset: -7px; border: 2px solid var(--ink); border-radius: 2px; pointer-events: none; filter: url(#ink-bleed); opacity: .85; transform: rotate(-.6deg); transition: transform .6s var(--ease), inset .6s var(--ease); }
+html[data-world='tech'] .game:hover .inkframe::after { transform: rotate(1.2deg); inset: -10px; }
+html[data-world='tech'] .game-icon { border-radius: 3px; overflow: visible; box-shadow: none; }
+html[data-world='tech'] .game-icon img { border-radius: 3px; filter: saturate(.92) contrast(1.05); }
+html[data-world='tech'] .game:hover .game-icon { transform: translateY(-8px); border-radius: 3px; }
+html[data-world='tech'] .game:hover .game-icon img { transform: none; filter: none; }
+html[data-world='tech'] .game-icon.noicon { background: var(--bg3); }
+html[data-world='tech'] .game-icon.noicon svg { stroke: var(--ink); }
+html[data-world='tech'] .feat-frame .vf { border-radius: 2px; }
+html[data-world='tech'] .feat-badge { background: rgba(14, 13, 12, .78); border-radius: 3px; }
+html[data-world='tech'] .feat-badge img { border-radius: 3px; }
+
+/* the vermilion seal: the one colour in the ink world */
+.seal { display: none; }
+html[data-world='tech'] .seal { display: grid; place-items: center; position: absolute; z-index: 5; right: clamp(-18px, -1.5vw, -10px); top: clamp(-26px, -2vw, -14px); width: clamp(74px, 7vw, 104px); aspect-ratio: 1; border-radius: 12px;
+  background: var(--seal); color: #f6e9e2; font-weight: 800; font-size: clamp(10px, .85vw, 13px); line-height: 1.05; text-align: center; letter-spacing: .02em; transform: rotate(8deg);
+  box-shadow: inset 0 0 0 3px #f6e9e2, inset 0 0 0 6px var(--seal), inset 0 0 0 7px #f6e9e2; filter: url(#ink-bleed); mix-blend-mode: normal; }
+
+/* brush rules instead of hairlines */
+html[data-world='tech'] .sys,
+html[data-world='tech'] .feat-copy li { border-top: 0; position: relative; }
+html[data-world='tech'] .sys:last-child { border-bottom: 0; }
+html[data-world='tech'] .sys::before,
+html[data-world='tech'] .feat-copy li::after,
+html[data-world='tech'] .sys:last-child::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--ink); opacity: .32; filter: url(#ink-bleed);
+  -webkit-mask: linear-gradient(90deg, transparent, #000 4%, #000 70%, transparent); mask: linear-gradient(90deg, transparent, #000 4%, #000 70%, transparent); }
+html[data-world='tech'] .sys:last-child::after { top: auto; bottom: 0; }
+html[data-world='tech'] .feat-copy li::before { width: 9px; height: 9px; border-radius: 50%; transform: none; background: var(--seal); }
+html[data-world='tech'] .chips li, html[data-world='tech'] .sys-links a, html[data-world='tech'] .bar-cta, html[data-world='tech'] .contact-links a { border-radius: 3px; }
+html[data-world='tech'] .sys-links a:hover { background: var(--ink); color: var(--bg); }
+html[data-world='tech'] .stat b { color: var(--ink); }
+html[data-world='tech'] .game-meta .v { color: var(--ink); }
+html[data-world='tech'] .mini-switch { border-radius: 4px; }
+
+/* ink splatter behind the stat */
+html[data-world='tech'] .stat { position: relative; }
+html[data-world='tech'] .stat::before { content: ''; position: absolute; z-index: -1; left: -14%; top: -30%; width: 120%; height: 150%; background: radial-gradient(closest-side, rgba(236,230,216,.07), transparent); filter: url(#ink-bleed); }
+html[data-world='tech'] .sw[aria-selected='true'] { background: var(--accent); color: var(--accent-ink); }
+html[data-world='tech'] .sw[aria-selected='true'] .sw-media { box-shadow: 0 0 0 2px var(--accent-ink); }

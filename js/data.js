@@ -5,7 +5,7 @@ const V = 'assets/video/';
 
 export const PROFILE = {
   name: 'Pao Encisa',
-  email: 'paomonggi.dev@gmail.com',
+  email: 'paoencisa.dev@gmail.com',
   location: 'Marikina, Philippines',
   about:
     'Computer Science graduate with 3+ years across software development, automation, 3D modeling and digital content. I build Roblox games end to end, model game-ready assets in Blender, and produce AI videos from script to final cut.',
@@ -93,7 +93,7 @@ export const VIDEO_TYPES = [
   { type: 'UGC-style ads', note: 'Creator-style product videos with punchy captions.', clips: [ ['sarah-ugc', 'Paid invoices', '9/16'] ] },
   { type: 'Product commercials', note: 'Studio-lit hero shots for products.', clips: [ ['headphones-ad', 'Headphones', '16/9'], ['watch-ad', 'Watch', '16/9'] ] },
   { type: 'Listicles and faceless shorts', note: 'Fast countdowns built for retention.', clips: [ ['dogs-listicle', 'Jumping dogs', '9/16'] ] },
-  { type: 'Client edits in CapCut', note: 'Event recaps, testimonials and brand reels from raw footage.', clips: [ ['event-reel', 'Event recap', '9/16'], ['testimonial', 'Testimonial', '9/16'], ['pool-reel', 'Brand reel', '9/16'] ] },
+  { type: 'Client edits in CapCut', note: 'Event recaps and brand reels cut from raw footage.', clips: [ ['event-reel', 'Event recap', '9/16'], ['pool-reel', 'Brand reel', '9/16'] ] },
 ].map((t) => ({ ...t, clips: t.clips.map(([f, title, ratio]) => ({ src: V + f + '.mp4', poster: V + f + '.webp', title, ratio })) }));
 
 export const VIDEO_TOOLS = ['CapCut', 'AI image and video generation', 'AI voiceover', 'Code-driven 3D animation', 'Captions and sound design', 'Pacing and color'];

@@ -3,11 +3,11 @@
 import * as THREE from '../vendor/three.module.min.js';
 
 const PALETTES = {
-  tech: ['#ffd23f', '#f7f5ef', '#5d78ff', '#ffffff', '#ffd23f', '#9fb0ff'],
+  tech: ['#1b1917', '#24211d', '#2e2a25', '#1b1917', '#ece6d8', '#24211d', '#2e2a25', '#1b1917', '#24211d', '#2e2a25', '#1b1917', '#d4382b'],
   '3d': ['#6d4cff', '#2a1b5c', '#9b7dff', '#5ce1ff', '#1c1238', '#3b2a7a'],
   video: ['#ffffff', '#cfd4de', '#ff2d55', '#f6f7fa', '#b9bfcb', '#e2e5ec'],
 };
-const BG = { tech: '#1834e8', '3d': '#0d0819', video: '#eceef3' };
+const BG = { tech: '#0e0d0c', '3d': '#0d0819', video: '#eceef3' };
 
 export function createHero3D(canvas, { reduced = false } = {}) {
   const mobile = matchMedia('(max-width: 900px)').matches;
@@ -32,8 +32,15 @@ export function createHero3D(canvas, { reduced = false } = {}) {
   const mat = new THREE.MeshStandardMaterial({ roughness: 0.42, metalness: 0.08, emissive: 0x000000 });
   const mesh = new THREE.InstancedMesh(geo, mat, N);
   mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  // Ink look for the tech world: flat cel shading plus a bone-white inked outline (inverted hull).
+  const ramp = new THREE.DataTexture(new Uint8Array([70, 70, 70, 255, 150, 150, 150, 255, 255, 255, 255, 255]), 3, 1);
+  ramp.minFilter = ramp.magFilter = THREE.NearestFilter; ramp.needsUpdate = true;
+  const toon = new THREE.MeshToonMaterial({ gradientMap: ramp });
+  const lineMat = new THREE.MeshBasicMaterial({ color: '#ece6d8', side: THREE.BackSide, transparent: true, opacity: 0 });
+  const lines = new THREE.InstancedMesh(geo, lineMat, N);
+  lines.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   const root = new THREE.Group();
-  root.add(mesh);
+  root.add(lines, mesh);
   scene.add(root);
 
   // per-instance state
@@ -89,10 +96,14 @@ export function createHero3D(canvas, { reduced = false } = {}) {
     mat.emissive.set(w === '3d' ? '#2a1466' : '#000000');
     mat.emissiveIntensity = w === '3d' ? 0.6 : 0;
     mat.roughness = w === 'video' ? 0.25 : 0.42;
+    mesh.material = w === 'tech' ? toon : mat;
+    lineTarget = w === 'tech' ? 1 : 0;
     bgTarget.set(BG[w]);
     if (reduced) snap();
   }
+  let lineTarget = 0;
   const bg = new THREE.Color(BG.tech), bgTarget = new THREE.Color(BG.tech);
+  const big = new THREE.Vector3();
   scene.background = bg;
 
   function snap() { cur.forEach((c, i) => { c.p.copy(tgt[i].p); c.r.copy(tgt[i].r); c.s.copy(tgt[i].s); c.c.copy(tgt[i].c); }); }
@@ -148,7 +159,13 @@ export function createHero3D(canvas, { reduced = false } = {}) {
       m4.compose(pv, q, c.s);
       mesh.setMatrixAt(i, m4);
       mesh.setColorAt(i, c.c);
+      big.set(c.s.x + 0.09, c.s.y + 0.09, c.s.z + 0.09);
+      m4.compose(pv, q, big);
+      lines.setMatrixAt(i, m4);
     }
+    lineMat.opacity += (lineTarget - lineMat.opacity) * k;
+    lines.visible = lineMat.opacity > 0.01;
+    lines.instanceMatrix.needsUpdate = true;
     mesh.instanceMatrix.needsUpdate = true;
     mesh.instanceColor.needsUpdate = true;
     bg.lerp(bgTarget, k);

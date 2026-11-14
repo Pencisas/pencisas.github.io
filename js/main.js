@@ -6,7 +6,7 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 const fmt = (n) => (n >= 1000 ? (n / 1000).toFixed(n >= 100000 ? 0 : 1).replace(/\.0$/, '') + 'K' : String(n));
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const WORLDS = ['tech', '3d', 'video'];
-const BG = { tech: '#1834e8', '3d': '#0d0819', video: '#eceef3' };
+const BG = { tech: '#0e0d0c', '3d': '#0d0819', video: '#eceef3' };
 const html = document.documentElement;
 let current = html.dataset.world || 'tech';
 
@@ -39,7 +39,8 @@ function techWorld() {
 
   <section class="wsec feat" aria-labelledby="f-h">
     <div class="feat-stage">
-      <div class="feat-frame vf-host">
+      <div class="feat-frame vf-host inkframe">
+        <span class="seal" aria-hidden="true">MONPAO<br>STUDIO</span>
         ${video({ src: f.video, poster: f.poster, title: f.name + ' trailer', ratio: '16/9' })}
         <a class="feat-badge" href="${f.url}" target="_blank" rel="noopener">
           <img src="${f.icon}" alt="" width="52" height="52">
@@ -65,7 +66,7 @@ function techWorld() {
     <div class="games-track-wrap"><div class="games-track">
       ${GAMES.map((g) => `
         <a class="game" href="${g.url}" target="_blank" rel="noopener">
-          <span class="game-icon ${g.icon ? '' : 'noicon'}">${g.icon ? `<img src="${g.icon}" alt="" width="512" height="512" loading="lazy">` : SNOW}</span>
+          <span class="game-icon inkframe ${g.icon ? '' : 'noicon'}">${g.icon ? `<img src="${g.icon}" alt="" width="512" height="512" loading="lazy">` : SNOW}</span>
           <span class="game-name">${esc(g.name)}</span>
           <span class="game-meta">${g.visits ? `<span class="v">${fmt(g.visits)} visits</span>` : ''}${g.favs ? `<span>${fmt(g.favs)} favorites</span>` : ''}<span>${esc(g.tag)}</span></span>
         </a>`).join('')}
@@ -262,8 +263,11 @@ function initWorldMotion() {
   if (!gsap) return;
   ctx = gsap.context(() => {
     // headline lines rise as they enter
+    const ink = html.dataset.world === 'tech';
     $$('.reveal-lines', worldEl).forEach((h) => {
-      gsap.from($$('.split-line > span', h), { yPercent: 110, rotate: 3, duration: 1.1, ease: 'expo.out', stagger: 0.09, scrollTrigger: { trigger: h, start: 'top 85%' } });
+      const spans = $$('.split-line > span', h);
+      if (ink) gsap.fromTo(spans, { clipPath: 'inset(-10% 100% -10% 0%)', filter: 'blur(10px)', opacity: 0.2 }, { clipPath: 'inset(-10% -2% -10% 0%)', filter: 'blur(0px)', opacity: 1, duration: 1.2, ease: 'power3.inOut', stagger: 0.16, scrollTrigger: { trigger: h, start: 'top 85%' } });
+      else gsap.from(spans, { yPercent: 110, rotate: 3, duration: 1.1, ease: 'expo.out', stagger: 0.09, scrollTrigger: { trigger: h, start: 'top 85%' } });
     });
     $$('.lede, .stat, .capcut, .type-head', worldEl).forEach((el) => gsap.from(el, { y: 30, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
     $$('.stagger', worldEl).forEach((ul) => gsap.from(ul.children, { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06, scrollTrigger: { trigger: ul, start: 'top 88%' } }));
